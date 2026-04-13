@@ -8,4 +8,5 @@
 | 00 | [Notes App](./Day_00_Notes_App) | ✅ Готово |
 | 01 | Day 01: Portfolio | ✅ Готово |
 | 02 | Dice App | ✅ Готово |
-| 03 | Xylophone | ⏳ В процессе |
+| 03 | Xylophone | ⏳ ✅ Готово |
+| 03 | Quizzler | ⏳ В процессе |
