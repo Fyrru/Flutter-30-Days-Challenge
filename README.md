@@ -9,4 +9,5 @@
 | 01 | Day 01: Portfolio | ✅ Готово |
 | 02 | Dice App | ✅ Готово |
 | 03 | Xylophone | ✅ Готово |
-| 03 | Quizzler | ⏳ В процессе |
+| 04 | Quizzler | ✅ Готово |
+| 05 | Modularity & Encapsulation (OOP in Practice) | ⏳ В процессе |
