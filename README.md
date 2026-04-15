@@ -10,4 +10,5 @@
 | 02 | Dice App | ✅ Готово |
 | 03 | Xylophone | ✅ Готово |
 | 04 | Quizzler | ✅ Готово |
-| 05 | Modularity & Encapsulation (OOP in Practice) | ⏳ В процессе |
+| 05 | Modularity & Encapsulation (OOP in Practice) | ✅ Готово |
+| 05 | Todo List | ⏳ В процессе |
