@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'quiz_brain.dart';
 
 void main() => runApp(const MyApp());
 
@@ -22,17 +23,40 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int questionNumber = 0;
+  QuizBrain quizBrain = QuizBrain();
   List<Widget> scoreKeeper = [];
 
-  List<Question> questionsBank = [
-    Question(questionText: 'The earth is round?', questionAnswer: true),
-    Question(questionText: 'Cats can fly.', questionAnswer: false),
-    Question(
-      questionText: 'There are 30 days in February?',
-      questionAnswer: false,
-    ),
-  ];
+  void checkAnswer(bool userPickedAnswer) {
+    bool correctAnswer = quizBrain.getQuestionAnswer();
+
+    setState(() {
+      if (correctAnswer == userPickedAnswer) {
+        scoreKeeper.add(Icon(Icons.check, color: Colors.green));
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Красавчик, угадал!'),
+            backgroundColor: Colors.green,
+            duration: Duration(milliseconds: 500),
+          ),
+        );
+      } else {
+        scoreKeeper.add(Icon(Icons.close, color: Colors.red));
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Мимо!'),
+            backgroundColor: Colors.red,
+            duration: Duration(milliseconds: 500),
+          ),
+        );
+      }
+      if (quizBrain.isFinished()) {
+        quizBrain.reset();
+        scoreKeeper = [];
+      } else {
+        quizBrain.nextQuestion();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
               flex: 5,
               child: Center(
                 child: Text(
-                  questionsBank[questionNumber].questionText,
+                  quizBrain.getQuestionText(),
                   textAlign: TextAlign.center,
                   style: const TextStyle(fontSize: 25, color: Colors.black),
                 ),
@@ -59,31 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: TextButton(
                   style: TextButton.styleFrom(backgroundColor: Colors.green),
                   onPressed: () {
-                    bool correctAnswer =
-                        questionsBank[questionNumber].questionAnswer;
-                    if (correctAnswer == true) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Красавчик, угадал!'),
-                          backgroundColor: Colors.green,
-                          duration: Duration(milliseconds: 500),
-                        ),
-                      );
-                      scoreKeeper.add(Icon(Icons.check, color: Colors.green));
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Мимо!'),
-                          backgroundColor: Colors.red,
-                          duration: Duration(milliseconds: 500),
-                        ),
-                      );
-                      scoreKeeper.add(Icon(Icons.close, color: Colors.red));
-                    }
-                    setState(() {
-                      questionNumber =
-                          (questionNumber + 1) % questionsBank.length;
-                    });
+                    checkAnswer(true);
                   },
                   child: const Text(
                     'True',
@@ -98,31 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: TextButton(
                   style: TextButton.styleFrom(backgroundColor: Colors.red),
                   onPressed: () {
-                    bool correctAnswer =
-                        questionsBank[questionNumber].questionAnswer;
-                    if (correctAnswer == false) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Красавчик, угадал!'),
-                          backgroundColor: Colors.green,
-                          duration: Duration(milliseconds: 500),
-                        ),
-                      );
-                      scoreKeeper.add(Icon(Icons.check, color: Colors.green));
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Мимо!'),
-                          backgroundColor: Colors.red,
-                          duration: Duration(milliseconds: 500),
-                        ),
-                      );
-                      scoreKeeper.add(Icon(Icons.close, color: Colors.red));
-                    }
-                    setState(() {
-                      questionNumber =
-                          (questionNumber + 1) % questionsBank.length;
-                    });
+                    checkAnswer(false);
                   },
                   child: const Text(
                     'False',
@@ -137,11 +113,4 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
-}
-
-class Question {
-  String questionText;
-  bool questionAnswer;
-
-  Question({required this.questionText, required this.questionAnswer});
 }
